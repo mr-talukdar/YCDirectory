@@ -4,19 +4,22 @@ import {EyeIcon} from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import {Button} from "@/components/ui/button";
+import {Author, Startup} from "@/sanity/types";
 
-interface StartupCardType{
-    _createdAt: Date,
-    views:string,
-    author:{_id:number, name: string},
-    _id: number,
-    description:string,
-    image:string,
-    category:string,
-    title:string,
-}
+// interface StartupCardType{
+//     _createdAt: Date,
+//     views:string,
+//     author:{_id:number, name: string},
+//     _id: number,
+//     description:string,
+//     image:string,
+//     category:string,
+//     title:string,
+// }
 
-const StartupCard = ({post}:{post: StartupCardType}) => {
+export type StartupTypeCard=Omit<Startup, 'author'> & {author?: Author};
+
+const StartupCard = ({post}:{post: StartupTypeCard}) => {
     return (
         <li className={'startup-card group'}>
             <div className={'flex-between'}>
@@ -55,7 +58,7 @@ const StartupCard = ({post}:{post: StartupCardType}) => {
                 <img src={post.image} alt={'placeholder'} className={'startup-card_img mt-2'} />
             </Link>
             <div className={'flex-between gap-3 mt-5'}>
-                <Link href={`/?query=${post.category.toLowerCase()}`}>
+                <Link href={`/?query=${post.category?.toLowerCase()}`}>
                     <p className={'text-16-medium'}>
                         {post.category}
                     </p>

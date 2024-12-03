@@ -1,37 +1,19 @@
-import Image from "next/image";
 import SearchForm from "@/components/SearchForm";
-import StartupCard from "@/components/StartupCard";
-import {formatDate} from "@/lib/utils";
+import StartupCard, {StartupTypeCard} from "@/components/StartupCard";
+import {sanityFetch, SanityLive} from "@/sanity/lib/live";
+import {STARTUPS_QUERY} from "@/sanity/lib/queries";
 
 interface SearchParams {
     searchParams: Promise<{query?: string}>
 }
 
-interface StartupCardType{
-    _createdAt: Date,
-    views:string,
-    author:{_id:number, name: string},
-    _id: number,
-    description:string,
-    image:string,
-    category:string,
-    title:string,
-}
+
 
 export default async function Home({searchParams}: SearchParams) {
     const query = (await searchParams).query;
+    const params={search: query || null}
+    const {data: posts} = await sanityFetch({query:STARTUPS_QUERY, params});
 
-    const posts=[{
-        _createdAt: new Date(),
-        views:'55',
-        author:{_id:1, name:'Rahul'},
-        _id: 1,
-        description:'Tired of being a chill guy',
-        image:'https://scontent.fhyd7-1.fna.fbcdn.net/v/t39.30808-6/468103176_1076898184085104_2290982403133980901_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=127cfc&_nc_ohc=kfGG19lggt0Q7kNvgHA8_Cn&_nc_zt=23&_nc_ht=scontent.fhyd7-1.fna&_nc_gid=A5OE4gZSSJvGLQ9rM7IUhCf&oh=00_AYDRjxGXdkQOV0wQ6rdrvpR4DrzsKRzwOaOv0A7TqX8FgA&oe=6752FD70',
-        category:'meme',
-        title:"Chill Guy"
-    },
-    ];
 
     return (
       <>
@@ -48,7 +30,7 @@ export default async function Home({searchParams}: SearchParams) {
               </p>
               <ul className={'mt-7 card_grid'}>
                   {posts?.length >0?(
-                      posts.map((post:StartupCardType, index:number)=>(
+                      posts.map((post:StartupTypeCard, index:number)=>(
                           <StartupCard key={post._id} post={post} />
                           ))
                   ):(
@@ -56,7 +38,7 @@ export default async function Home({searchParams}: SearchParams) {
                   )}
               </ul>
           </section>
-
+        <SanityLive/>
       </>
   );
 }
