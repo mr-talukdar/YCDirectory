@@ -128,7 +128,7 @@ export type SanityAssetSourceData = {
 export type Startup = {
   _id: string;
   _type: "startup";
-  _createdAt: Date;
+  _createdAt: string;
   _updatedAt: string;
   _rev: string;
   title?: string;

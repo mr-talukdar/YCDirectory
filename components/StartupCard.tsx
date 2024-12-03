@@ -6,20 +6,11 @@ import Image from "next/image";
 import {Button} from "@/components/ui/button";
 import {Author, Startup} from "@/sanity/types";
 
-// interface StartupCardType{
-//     _createdAt: Date,
-//     views:string,
-//     author:{_id:number, name: string},
-//     _id: number,
-//     description:string,
-//     image:string,
-//     category:string,
-//     title:string,
-// }
 
 export type StartupTypeCard=Omit<Startup, 'author'> & {author?: Author};
 
 const StartupCard = ({post}:{post: StartupTypeCard}) => {
+
     return (
         <li className={'startup-card group'}>
             <div className={'flex-between'}>
@@ -35,7 +26,7 @@ const StartupCard = ({post}:{post: StartupTypeCard}) => {
 
             <div className={'flex-between mt-5 gap-5'}>
                 <div className={'flex-1'}>
-                    <Link href={`/user/${post.author?._id}`}>
+                    <Link href={`/user/${post.author?.id}`}>
                         <p className={'line-clamp-1 text-16-medium'}>
                             {post.author?.name}
                         </p>
